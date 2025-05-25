@@ -1,4 +1,4 @@
-# 🤖 Ollama Telegram Bot Enhanced
+# 🤖 Telegram Ollama Bot (TOB)
 
 An advanced Telegram bot for Ollama with intelligent conversation management, dynamic compression, and production-ready features.
 

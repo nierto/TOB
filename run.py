@@ -19,27 +19,7 @@ from aiogram.filters.command import Command, CommandStart
 from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from func.interactions import *
-
-# Add extensions to path and import
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)  # Add current directory to Python path
-
-try:
-    from extensions import (
-        conversation_manager, 
-        get_conversation_mode_keyboard,
-        handle_mode_selection,
-        show_compressed_history,
-        conversation_stats,
-        ConversationMode
-    )
-    EXTENSIONS_AVAILABLE = True
-    logging.info("Extensions module loaded successfully")
-except ImportError as e:
-    logging.warning(f"Extensions module not available: {e}")
-    logging.info(f"Current directory: {current_dir}")
-    logging.info(f"Files in directory: {os.listdir(current_dir)}")
-    EXTENSIONS_AVAILABLE = False
+from func.extensions import *
 
 import asyncio
 import traceback
@@ -69,7 +49,7 @@ def split_into_chunks(text, max_length=4000):
     return [text[i:i+max_length] for i in range(0, len(text), max_length)]
 
 def init_db():
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('/db/users.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id INTEGER PRIMARY KEY, name TEXT)''')
@@ -91,14 +71,14 @@ def init_db():
     conn.close()
 
 def register_user(user_id, user_name):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('/db/users.db')
     c = conn.cursor()
     c.execute("INSERT OR REPLACE INTO users VALUES (?, ?)", (user_id, user_name))
     conn.commit()
     conn.close()
 
 def save_chat_message(user_id, role, content):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('/db/users.db')
     c = conn.cursor()
     c.execute("INSERT INTO chats (user_id, role, content) VALUES (?, ?, ?)",
               (user_id, role, content))

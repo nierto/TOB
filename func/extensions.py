@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 # Import from your interactions module
-from func.interactions import generate
+from interactions import generate
 
 class ConversationMode(Enum):
     """Conversation handling modes"""
